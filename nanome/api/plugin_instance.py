@@ -313,7 +313,7 @@ class PluginInstance(_PluginInstance):
         id = self._network._send(_Messages.stream_create, (stream_type, atom_indices_list, StreamDirection.reading))
         self._save_callback(id, callback)
 
-    def add_bonds(self, complex_list, callback, fast_mode=None):
+    def add_bonds(self, complex_list, callback, fast_mode=None, nano=False):
         """
         | Calculate bonds
         | Needs openbabel to be installed
@@ -321,7 +321,7 @@ class PluginInstance(_PluginInstance):
         :param complex_list: List of complexes to add bonds to
         :type complex_list: list of :class:`~nanome.api.structure.complex.Complex`
         """
-        bonding = _Bonding(complex_list, callback, fast_mode)
+        bonding = _Bonding(complex_list, callback, fast_mode, nano)
         bonding._start()
 
     def add_dssp(self, complex_list, callback):
