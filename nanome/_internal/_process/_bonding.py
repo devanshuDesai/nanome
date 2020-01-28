@@ -70,7 +70,7 @@ class _Bonding():
 
     def __bonding_done(self, result_code):
         if result_code == -1:
-            Logs.error(f"Couldn't execute {'nanobabel' if nano else 'openbabel'} to generate bonds. Is it installed?")
+            Logs.error(f"Couldn't execute {'nanobabel' if self.nano else 'openbabel'} to generate bonds. Is it installed?")
             self.__callback(self.__complexes)
             return
         with open(self.__output.name) as f:
