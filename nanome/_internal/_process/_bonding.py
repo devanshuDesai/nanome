@@ -11,6 +11,7 @@ class _Bonding():
         self.__complexes = complex_list
         self.__framed_complexes = [complex.convert_to_frames() for complex in complex_list]
         self.__callback = callback
+        self.nano = nano
 
         atom_count = 0
         if fast_mode == None:
@@ -27,7 +28,7 @@ class _Bonding():
         self.__output = tempfile.NamedTemporaryFile(delete=False, suffix='.mol')
 
         self.__proc = Process()
-        self.__proc.executable_path = 'nan' if nano else '' + 'obabel'
+        self.__proc.executable_path = 'nan' if self.nano else '' + 'obabel'
         self.__proc.args = ['-ipdb', self.__input.name, '-osdf', '-O' + self.__output.name]
         self.__proc.output_text = True
         self.__proc.on_error = self.__on_error
@@ -69,7 +70,7 @@ class _Bonding():
 
     def __bonding_done(self, result_code):
         if result_code == -1:
-            Logs.error("Couldn't execute openbabel to generate bonds. Is it installed?")
+            Logs.error(f"Couldn't execute {'nanobabel' if nano else 'openbabel'} to generate bonds. Is it installed?")
             self.__callback(self.__complexes)
             return
         with open(self.__output.name) as f:
