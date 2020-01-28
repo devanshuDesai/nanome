@@ -7,7 +7,7 @@ import os
 
 
 class _Bonding():
-    def __init__(self, complex_list, callback, fast_mode=None):
+    def __init__(self, complex_list, callback, fast_mode=None, nano=False):
         self.__complexes = complex_list
         self.__framed_complexes = [complex.convert_to_frames() for complex in complex_list]
         self.__callback = callback
@@ -27,7 +27,7 @@ class _Bonding():
         self.__output = tempfile.NamedTemporaryFile(delete=False, suffix='.mol')
 
         self.__proc = Process()
-        self.__proc.executable_path = 'obabel'
+        self.__proc.executable_path = 'nan' if nano else '' + 'obabel'
         self.__proc.args = ['-ipdb', self.__input.name, '-osdf', '-O' + self.__output.name]
         self.__proc.output_text = True
         self.__proc.on_error = self.__on_error
@@ -93,7 +93,7 @@ class _Bonding():
                 atom._bonds.clear()
             for residue in self.__saved_complex.residues:
                 residue._bonds.clear()
-        
+
         if self.__molecule_idx == 0 or not self.__saved_is_conformer:
             self.__atom_by_serial = dict()
             molecule = self.__saved_complex._molecules[self.__molecule_idx]
