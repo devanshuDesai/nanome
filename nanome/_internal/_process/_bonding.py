@@ -28,7 +28,7 @@ class _Bonding():
         self.__output = tempfile.NamedTemporaryFile(delete=False, suffix='.mol')
 
         self.__proc = Process()
-        self.__proc.executable_path = 'nan' if self.nano else '' + 'obabel'
+        self.__proc.executable_path = ('nan' if self.nano else '') + 'obabel'
         self.__proc.args = ['-ipdb', self.__input.name, '-osdf', '-O' + self.__output.name]
         self.__proc.output_text = True
         self.__proc.on_error = self.__on_error
